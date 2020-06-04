@@ -109,7 +109,7 @@ def my_test0():
     spg_options.interp = 0
     spg_options.numdiff = 0  # 0 to use gradients, 1 for numerical diff
     spg_options.maxIter = 1000
-    spg_options.verbose = 2
+    spg_options.verbose = 1
 
     x_init = np.array([-1, -3, 1, -1, 2, -4, 1, -2, - 6, 9, 3, -8, 2, 7])
     lb = construct_lb(rp, 2, 0, 4)
@@ -156,19 +156,14 @@ if __name__ == '__main__':
 
     g = probex921(xlist[-1])[1]
     index_ws, mat_ws = get_working_set(xlist[-1], n, ni, nc, epsilon=1e-6)
-
-
-    for i in range(len(xlist)):
-        if i ==0:
-            print('current point :{}'.format(xlist[-1]))
-            xlist.pop()
-    #print('final point :{}'.format(xlist[-1]))
+   
+    print('final point :{}'.format(xlist[-1]))
     print("final objective : {}".format(flist[-1]))
     print('final working set : {}'.format(index_ws))
     print('final gradient subset estimate:{}' .format(mat_ws.dot(g)))
     print('final lagrange multiplier estimate:{}'.format(etalist[-1]))
 
-#####OUTPUT##############################
+############################  OUTPUT   ###################################
 
 #First-Order Optimality Conditions Below optTol
 #First-Order Optimality Conditions Below optTol
@@ -180,7 +175,7 @@ if __name__ == '__main__':
 #First-Order Optimality Conditions Below optTol
 #First-Order Optimality Conditions Below optTol
 #First-Order Optimality Conditions Below optTol
-#current point :[ 1.99999924e+00  5.00000060e+00  0.00000000e+00  0.00000000e+00
+#final point :[ 1.99999924e+00  5.00000060e+00  0.00000000e+00  0.00000000e+00
 #  9.00000388e+00  5.00000228e+00 -2.00004119e-01 -4.00007803e-01
 # -4.43028915e-06 -1.66032429e-05  0.00000000e+00  0.00000000e+00
 #  3.94659537e-05  8.33507574e-05]
