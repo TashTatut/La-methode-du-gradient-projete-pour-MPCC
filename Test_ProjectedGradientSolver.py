@@ -27,6 +27,7 @@ import numpy as np
 #  compl {i in I}: 0 <= l[i]   complements   s[i] >= 0;
 ######################################################################################
 
+# Construire la fonction objective L_rho(x,z) = f(x) + eta * F(x,z) + (rho/2)*||F(x,z)||, et son gradient.
 def probex921(x):
     fobj = -x[0] - 3 * x[1]
     h = [-x[0] + x[1] + x[2] - 3,#eta[0]
@@ -62,7 +63,7 @@ def probex921(x):
     return [f, g]
     
     
-    #lb = np.array([-np.inf, -np.inf, 0, 0, 0, 0, -rp, -rp, -rp, -rp, 0, 0, 0, 0])
+    # Pour ce probelme ,lb = np.array([-np.inf, -np.inf, 0, 0, 0, 0, -rp, -rp, -rp, -rp, 0, 0, 0, 0])
     def construct_lb(rp, n, ni, nc):
     lst = []
     for i in range(n+ni+3*nc):
@@ -77,7 +78,7 @@ def probex921(x):
     return np.array(lst)
 
 
-
+# Determiner les contraintes actives a l'optimum, et la matrice de l'ensemble de travail
 def get_working_set(current_x, n, ni, nc, epsilon=1e-6):
     A = np.zeros((ni+3*nc, n))
     B = np.eye(ni+3*nc)
@@ -94,29 +95,28 @@ def get_working_set(current_x, n, ni, nc, epsilon=1e-6):
     return [index_ws, mat_ws]
 
 
-
+# Variables globales mises a jour dans la boucle
 rp = 10
 rho = 1
 eta = np.zeros((9,))
 
-
+# Iteration majeur
 def my_test0():
     global eta
     global rho
     global rp
+     # Personaliser les options
     spg_options = default_options
     spg_options.curvilinear = 1
     spg_options.interp = 0
     spg_options.numdiff = 0  # 0 to use gradients, 1 for numerical diff
     spg_options.maxIter = 1000
     spg_options.verbose = 1
-
+      
     x_init = np.array([-1, -3, 1, -1, 2, -4, 1, -2, - 6, 9, 3, -8, 2, 7])
     lb = construct_lb(rp, 2, 0, 4)
     funObj = lambda x: probex921(x)
-
     funProj = lambda x: project_bound(x, lb)
-
     eqConstr = lambda x: np.array([-x[0] + x[1] + x[2] - 3,#eta[0]
          x[0] + 2 * x[1] + x[3] - 12,#eta[1]
          4 * x[0] - x[1] + x[4] - 12,#eta[2]
@@ -132,7 +132,7 @@ def my_test0():
     flist =[]
     xlist =[]
     etalist = []
-    for i in range(20):
+    for i in range(10):
 
         x_prev = x_plus
         x_plus, fvalue = ProjectedGradientSolver(funObj, funProj, x_prev, spg_options)
