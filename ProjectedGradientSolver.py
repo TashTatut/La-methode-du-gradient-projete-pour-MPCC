@@ -40,7 +40,7 @@ def assertVector(v):
     assert len(v.shape) == 1
 
 
-defProjectedGradientSolver(funObj0, funProj, x, options=default_options):
+def ProjectedGradientSolver(funObj0, funProj, x, options=default_options):
     x = funProj(x)
     i = 1  # iteration
 
